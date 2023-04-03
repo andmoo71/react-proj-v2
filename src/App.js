@@ -1,16 +1,25 @@
 import React, { Component } from "react";
 import CardList from "./CardList";
-import { dogs } from "./Dogs.js";
 import SearchBox from "./SearchBox";
-import './App.css'
+import "./App.css";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      dogs: dogs,
+      dogs: [],
       searchfield: "",
     };
+  }
+
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => {
+        return response.json();
+      })
+      .then((users) => {
+        this.setState({ dogs: users });
+      });
   }
 
   onSearchChange = (event) => {
@@ -22,13 +31,17 @@ class App extends Component {
         .toLowerCase()
         .includes(this.state.searchfield.toLowerCase());
     });
-    return (
-      <div className="tc">
-        <h1 className='f1' >Serious Business</h1>
-        <SearchBox searchChange={this.onSearchChange} />
-        <CardList dogs={filteredDogs} />
-      </div>
-    );
+    if (this.state.dogs.length === 0) {
+      return <h1>Loading</h1>;
+    } else {
+      return (
+        <div className="tc">
+          <h1 className="f1">Serious Business</h1>
+          <SearchBox searchChange={this.onSearchChange} />
+          <CardList dogs={filteredDogs} />
+        </div>
+      );
+    }
   }
 }
 
