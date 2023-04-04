@@ -27,24 +27,19 @@ class App extends Component {
     this.setState({ searchfield: event.target.value });
   };
   render() {
-    const filteredDogs = this.state.dogs.filter((dogs) => {
-      return dogs.name
-        .toLowerCase()
-        .includes(this.state.searchfield.toLowerCase());
+    const { dogs, searchfield } = this.state;
+    const filteredDogs = dogs.filter((dog) => {
+      return dog.name.toLowerCase().includes(searchfield.toLowerCase());
     });
-    if (this.state.dogs.length === 0) {
-      return <h1>Loading</h1>;
-    } else {
-      return (
-        <div className="tc">
-          <h1 className="f1">Serious Business</h1>
-          <SearchBox searchChange={this.onSearchChange} />
-          <Scroll>
-            <CardList dogs={filteredDogs} />
-          </Scroll>
-        </div>
-      );
-    }
+    return !dogs.length ?
+      <h1>Loading</h1> : 
+      <div className="tc">
+        <h1 className="f1">Serious Business</h1>
+        <SearchBox searchChange={this.onSearchChange} />
+        <Scroll>
+          <CardList dogs={filteredDogs} />
+        </Scroll>
+      </div>
   }
 }
 
