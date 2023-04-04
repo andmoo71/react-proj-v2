@@ -34,7 +34,7 @@ class App extends Component {
     return !dogs.length ?
       <h1>Loading</h1> : 
       <div className="tc">
-        <h1 className="f1">Serious Business</h1>
+        <h1 className="f1">Ducks in a Row, inc.</h1>
         <SearchBox searchChange={this.onSearchChange} />
         <Scroll>
           <CardList dogs={filteredDogs} />
